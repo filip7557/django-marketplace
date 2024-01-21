@@ -13,6 +13,7 @@ class Ad(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     isActive = models.BooleanField
     image = models.CharField(max_length=128)
+    type = models.CharField(max_length=128)
 
 class Review(models.Model):
     poster = models.ForeignKey(User, on_delete=models.CASCADE)
