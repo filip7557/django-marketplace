@@ -12,6 +12,7 @@ class Seller(models.Model):
 class Ad(models.Model):
     title = models.CharField(max_length=128)
     desc = models.CharField(max_length=512)
+    price = models.PositiveIntegerField()
     pub_date = models.DateTimeField(auto_now_add=True)
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     isActive = models.BooleanField()
