@@ -2,9 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Seller(models.Model):
+class MarketplaceUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     isSeller = models.BooleanField()
+    credits = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.user}"
@@ -14,7 +15,7 @@ class Ad(models.Model):
     desc = models.CharField(max_length=512)
     price = models.PositiveIntegerField()
     pub_date = models.DateTimeField(auto_now_add=True)
-    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    seller = models.ForeignKey(MarketplaceUser, on_delete=models.CASCADE)
     isActive = models.BooleanField()
     image = models.CharField(max_length=128)
     type = models.CharField(max_length=128)
@@ -24,7 +25,7 @@ class Ad(models.Model):
 
 class Review(models.Model):
     poster = models.ForeignKey(User, on_delete=models.CASCADE)
-    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    seller = models.ForeignKey(MarketplaceUser, on_delete=models.CASCADE)
     rating = models.IntegerField()
     text = models.CharField(max_length=512)
 
