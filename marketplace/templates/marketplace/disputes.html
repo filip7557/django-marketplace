@@ -1,0 +1,35 @@
+{% extends "marketplace/base.html" %}
+
+{% block content %}
+<div>
+    <form action="#" method="get">
+        <select name="filter" onchange="this.form.submit()">
+            <option selected disabled>Choose type</option>
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="solved">Solved</option>
+        </select>
+    </form>
+</div>
+<div>
+    <h2>Disputes</h2>
+    {% for dispute in disputes %}
+        <h3>{{ dispute }}</h3>
+        <p>{{ dispute.text }}</p>
+        {% if not dispute.isSolved %}
+        <p><b>Status: </b>Active</p>
+        <p>
+            <form action="{% url 'marketplace:solve_dispute'%}" method="post">
+            <input type="hidden" name="id" value="{{ dispute.id }}">
+            <input type="submit" value="Solve">
+            {% csrf_token %}
+            </form>
+        </p>
+        {% else %}
+        <p><b>Status: </b>Solved</p>
+        {% endif %}
+    {% empty %}
+        <p>No disputes fitting your filter.</p>
+    {% endfor %}
+</div>
+{% endblock content %}

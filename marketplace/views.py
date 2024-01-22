@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .models import Ad, MarketplaceUser
+from .models import Ad, Dispute, MarketplaceUser
 
 # Create your views here.
 def home(request):
@@ -33,6 +33,31 @@ def buy(request):
             user.credits -= ad.price
             user.save()
             #maybe add purchase model so we can save purchases
+    return HttpResponseRedirect(reverse('home'))
+
+def disputes(request):
+    if request.user.is_superuser:
+        sort = request.GET.get('filter', 'active')
+        if(sort=='all'):
+            disputes = Dispute.objects.order_by()
+        elif(sort=='solved'):
+            disputes = filter(lambda dispute: dispute.isSolved, Dispute.objects.order_by())
+        elif(sort=='active'):
+            disputes = filter(lambda dispute: not dispute.isSolved, Dispute.objects.order_by())
+        context = {
+            'disputes': disputes,
+        }
+        return render(request, 'marketplace/disputes.html', context)
+    return HttpResponseRedirect(reverse('home'))
+
+def solve_dispute(request):
+    if request.user.is_superuser:
+        if request.method=="POST":
+            id=request.POST['id']
+            dispute = get_object_or_404(Dispute, pk=id)
+            dispute.isSolved = True
+            dispute.save()
+            return HttpResponseRedirect(reverse('marketplace:disputes'))
     return HttpResponseRedirect(reverse('home'))
 
 def new(request): #treba ga napraviti

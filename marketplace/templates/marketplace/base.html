@@ -21,6 +21,7 @@
     <div>
         {% if request.user.is_superuser %}
         <a href= "/admin">Admin</a>
+        <a href="{% url 'marketplace:disputes' %}">Disputes</a>
         {% endif %}
     </div>
 
