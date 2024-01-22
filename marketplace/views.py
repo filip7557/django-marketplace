@@ -37,7 +37,7 @@ def buy(request):
 
 def disputes(request):
     if request.user.is_superuser:
-        sort = request.GET.get('filter', 'active')
+        sort = request.GET.get('filter', 'active') #we want to show active for default
         if(sort=='all'):
             disputes = Dispute.objects.order_by()
         elif(sort=='solved'):
@@ -61,4 +61,4 @@ def solve_dispute(request):
     return HttpResponseRedirect(reverse('home'))
 
 def new(request): #treba ga napraviti
-    return reverse('home')
+    return HttpResponseRedirect(reverse('home'))
