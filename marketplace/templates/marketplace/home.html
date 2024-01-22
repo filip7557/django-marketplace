@@ -20,7 +20,7 @@
     <h3>Credits: {{ user.credits }}</h3>
     {% endif %}
     {% for ad in ads %}
-        <div>
+        <div style="border-bottom: 1px solid; width: 40vw; padding-bottom: 1rem;">
             <h3>{{ ad.title }}</h3>
             <p><small>{{ ad.pub_date }}</small></p>
             <p>Seller: {{ ad.seller }}</p>
@@ -29,7 +29,12 @@
             <p><b>Price:</b> {{ ad.price }}</p>
             <form action="{% url 'marketplace:buy'%}" method="post">
                 <input type="hidden" name="id" value="{{ ad.id }}">
-                <input type="submit" value="Buy">
+                {% if user.credits < ad.price %}
+                    <input type="submit" value="Buy" disabled>
+                    <p style="color: red;">Not enough credits.</p>
+                {% else %}
+                    <input type="submit" value="Buy">
+                {% endif %}
                 {% csrf_token %}
             </form>
             </div>
