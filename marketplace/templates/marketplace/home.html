@@ -16,6 +16,9 @@
 </div>
 <div>
     <h2>Check out latest ads:</h2>
+    {% if request.user.is_authenticated %}
+    <h3>Credits: {{ user.credits }}</h3>
+    {% endif %}
     {% for ad in ads %}
         <div>
             <h3>{{ ad.title }}</h3>
@@ -23,7 +26,12 @@
             <p>Seller: {{ ad.seller }}</p>
             <img src="{{ ad.image }}" style="width: 150px;">
             <p>{{ ad.desc }}</p>
-            <!--treba dodati tipku za kupnju i tu funkcionalnost-->
+            <p><b>Price:</b> {{ ad.price }}</p>
+            <form action="{% url 'marketplace:buy'%}" method="post">
+                <input type="hidden" name="id" value="{{ ad.id }}">
+                <input type="submit" value="Buy">
+                {% csrf_token %}
+            </form>
             </div>
     {% empty %}
         <p>No ads fitting your filter.</p>
