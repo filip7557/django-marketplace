@@ -97,10 +97,7 @@ def profile(request, user_id):
     
 def register(request):
     if request.method == 'POST':
-        # Each form is validated separately, each form takes the data from the
-        # request that is relevant to it.
         user_form = UserForm(request.POST)
-        # Only if both forms are valid, we save the data to the database
         if user_form.is_valid():
             user = user_form.save()
             # We need to set the password separately, because the UserForm
