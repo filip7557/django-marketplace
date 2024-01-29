@@ -72,10 +72,12 @@ def profile(request, user_id):
             reviews = clicked_user.review_set.all()
             if request.user.id == user_id: #seller checking out his own profile
                 prev_sold_items = clicked_user.purchase_set.all()
+                purchases = request.user.purchase_set.all()
                 context = {
                     'seller': clicked_user,
                     'reviews': reviews,
                     'prev_sold_items': prev_sold_items,
+                    'purchases': purchases,
                 }
                 return render(request, 'marketplace/seller_profile.html', context)
             #sellers public profile

@@ -16,4 +16,10 @@
     {% empty %}
         <p>There are no reviews yet.</p>
     {% endfor %}
+    <h2>Previous purhcases:</h2>
+    {% for purchase in purchases %}
+        <p>Bought <b>{{ purchase.ad }}</b> from <b>{{ purchase.seller }}</b> for <b>{{ purchase.ad.price }}</b> credits.</p>
+    {% empty %}
+        <p>You haven't bought anything yet.</p>
+    {% endfor %}
 {% endblock content %}
