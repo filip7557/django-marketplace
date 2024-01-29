@@ -1,0 +1,32 @@
+{% extends "marketplace/base.html" %}
+
+{% block content %}
+    <h1>Register an account!</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        {% for hidden in user_form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <h2>Enter your details</h2>
+        {% for field in user_form.visible_fields %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}
+                <p style="color: red;">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+
+        <span>Do you want to be a seller?</span>
+        <select name="isSeller">
+            <option selected value="no">No</option>
+            <option value="yes">Yes</option>
+        </select>
+
+        <button type="submit">Register</button>
+
+        <a href="{% url 'home' %}">Cancel</a>
+
+    </form>
+{% endblock content %}

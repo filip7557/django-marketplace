@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+
+from .forms import UserForm
 from .models import Ad, Dispute, MarketplaceUser, Purchase
 
 # Create your views here.
@@ -11,7 +13,7 @@ def home(request):
     else:
         ads = filter(lambda ad: ad.type == sort and ad.isActive, Ad.objects.order_by("-pub_date"))
     if request.user.is_authenticated:
-        user = get_object_or_404(MarketplaceUser, pk=request.user.id)
+        user = get_object_or_404(MarketplaceUser, user=request.user)
     else:
         user = request.user
     context = {
@@ -90,6 +92,37 @@ def profile(request, user_id):
             }
             return render(request, 'marketplace/user_profile.html', context)
         return HttpResponseRedirect(reverse('home'))
+    
+def register(request):
+    if request.method == 'POST':
+        # Each form is validated separately, each form takes the data from the
+        # request that is relevant to it.
+        user_form = UserForm(request.POST)
+        # Only if both forms are valid, we save the data to the database
+        if user_form.is_valid():
+            user = user_form.save()
+            # We need to set the password separately, because the UserForm
+            # doesn't have a password field, it uses two fields for the password
+            # and password confirmation.
+            user.set_password(user_form.cleaned_data['password1'])
+            user.save()
+
+            select = request.POST['isSeller']
+            if(select=="yes"):
+                isSeller = True
+            else:
+                isSeller = False
+
+            # We need to set the user field on marketplaceUser before we can save it
+            marketplaceUser = MarketplaceUser(user=user, isSeller=isSeller, credits=0)
+            marketplaceUser.save()
+            return HttpResponseRedirect(reverse('login'))
+        else:
+            return render(request, 'registration/register.html', {'user_form': user_form,})
+    else:
+        user_form = UserForm()
+        return render(request, 'registration/register.html', {'user_form': user_form})
+
 
 def new(request): #treba ga napraviti
     return HttpResponseRedirect(reverse('home'))

@@ -13,9 +13,10 @@
     <div>
         {% if request.user.is_authenticated %}
             Prijavljen: <a href="{% url 'marketplace:profile' request.user.id %}">{{request.user.username}}</a></a>
-            <a href="{% url 'logout' %}">Odjava</a>
+            <a href="{% url 'logout' %}">Logout</a>
         {% else %}
-            <a href="{% url 'login' %}">Prijava</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'marketplace:register' %}">Register</a>
         {% endif %}
     </div>
     <div>
