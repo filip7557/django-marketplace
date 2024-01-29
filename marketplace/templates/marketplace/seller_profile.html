@@ -1,0 +1,19 @@
+{% extends 'marketplace/base.html' %}
+
+{% block content %}
+    <h1>{{ seller }}'s Profile</h1>
+    <h2>Previously sold items:</h2>
+    {% for sold_item in prev_sold_items %}
+        <p>Sold <b>{{ sold_item.ad }}</b> to <b>{{ sold_item.buyer }}</b> for <b>{{ sold_item.ad.price }}</b> credits.</p>
+    {% empty %}
+        <p>You haven't sold anything yet.</p>
+    {% endfor %}
+    <h2>Reviews:</h2>
+    {% for review in reviews %}
+        <h3>{{ review.poster }}</h3>
+        <p><b>Rating: </b>{{ review.rating }}</p>
+        <p>{{ review.text }}</p>
+    {% empty %}
+        <p>There are no reviews yet.</p>
+    {% endfor %}
+{% endblock content %}

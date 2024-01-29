@@ -23,7 +23,7 @@
         <div style="border-bottom: 1px solid; width: 40vw; padding-bottom: 1rem;">
             <h3>{{ ad.title }}</h3>
             <p><small>{{ ad.pub_date }}</small></p>
-            <p>Seller: {{ ad.seller }}</p>
+            <p>Seller: <a href="{% url 'marketplace:profile' ad.seller.id %}">{{ ad.seller }}</a></p>
             <img src="{{ ad.image }}" style="width: 150px;">
             <p>{{ ad.desc }}</p>
             <p><b>Price:</b> {{ ad.price }}</p>

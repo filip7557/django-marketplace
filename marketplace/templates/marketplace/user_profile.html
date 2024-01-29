@@ -1,0 +1,11 @@
+{% extends 'marketplace/base.html' %}
+
+{% block content %}
+    <h1>{{ user }}'s Profile</h1>
+    <h2>Previous purhcases:</h2>
+    {% for purchase in purchases %}
+        <p>Bought <b>{{ purchase.ad }}</b> from <b>{{ purchase.seller }}</b> for <b>{{ purchase.ad.price }}</b> credits.</p>
+    {% empty %}
+        <p>You haven't bought anything yet.</p>
+    {% endfor %}
+{% endblock content %}

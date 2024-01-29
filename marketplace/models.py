@@ -40,3 +40,11 @@ class Dispute(models.Model):
 
     def __str__(self):
         return f"{self.ad}: {self.user} disputing {self.ad.seller}"
+    
+class Purchase(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(MarketplaceUser, on_delete=models.CASCADE)
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.buyer} bought {self.ad}"
