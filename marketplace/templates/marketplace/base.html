@@ -16,13 +16,14 @@
             <a href="{% url 'marketplace:new' %}">Submit new ad</a>
         {% else %}
             <a href="{% url 'login' %}">Login</a>
+            <br>
             <a href="{% url 'marketplace:register' %}">Register</a>
         {% endif %}
     </div>
     <div>
         {% if request.user.is_superuser %}
         <a href= "/admin">Admin</a>
-        <a href="{% url 'marketplace:disputes' %}">Disputes</a>
+        <a href="{% url 'marketplace:disputes'%}">Disputes</a>
         {% endif %}
     </div>
 

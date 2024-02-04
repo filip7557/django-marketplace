@@ -122,34 +122,6 @@ def register(request):
         user_form = UserForm()
         return render(request, 'registration/register.html', {'user_form': user_form})
 
-
-def new(request): 
-    
-    if request.user.is_authenticated:
-        if request.method=="POST":
-            title=request.POST['title'] 
-            desc=request.POST['desc'] 
-            price=request.POST['price']
-            seller=get_object_or_404(MarketplaceUser, pk=request.user.id)
-            image=request.POST['image']
-            type=request.POST['type']
-
-            ad=Ad(title = title,desc = desc,price = price, seller = seller,isActive=True,image = image, type = type)
-            ad.save()   
-
-            return HttpResponseRedirect(
-                reverse('home')
-            )
-
-        else:
-            context={}
-            return render(request, 'marketplace/new.html',context)
-    
-    else:
-        return HttpResponseRedirect(
-                reverse('home')
-            )
-
 def new(request): 
     if request.user.is_authenticated:
         if request.method=="POST":

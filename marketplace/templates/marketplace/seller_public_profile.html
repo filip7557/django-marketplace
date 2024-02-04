@@ -10,4 +10,20 @@
     {% empty %}
         <p>There are no reviews yet.</p>
     {% endfor %}
+
+    {% if request.user.is_authenticated %}
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <input type="number" name="price" min="1" max="5" required> <br>
+            <input type="text" name="image"> <br>
+
+            <input type="submit" value="Submit a review">
+        </form>
+        {%else%}
+            <a href="url 'login'">Login</a>
+    {% endif %}
+
 {% endblock content %}
+
+                    
