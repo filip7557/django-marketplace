@@ -149,3 +149,23 @@ def new(request):
         return HttpResponseRedirect(
                 reverse('home')
             )
+
+def new(request): 
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            user = get_object_or_404(MarketplaceUser, pk=request.user.id)
+            if(user.isSeller):
+                title=request.POST['title'] 
+                desc=request.POST['desc'] 
+                price=request.POST['price']
+                image=request.POST['image']
+                type=request.POST['type']
+
+                ad=Ad(title = title,desc = desc,price = price, seller = user,isActive=True,image = image, type = type)
+                ad.save()   
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            context={}
+            return render(request, 'marketplace/new.html', context)
+    else:
+        return HttpResponseRedirect(reverse('home'))
