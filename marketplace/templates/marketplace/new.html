@@ -1,0 +1,32 @@
+{%extends 'marketplace/base.html'%}
+
+{%block content%}
+    <h1>Submit new ad</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for ="">Title</label>
+        <input type="text" name="title"> <br>
+
+        <label for ="">Description</label>
+        <input type="text" name="desc"> <br>
+
+        <label for ="">Price</label>
+        <input type="number" name="price"> <br>
+
+        <label for ="">Image</label>
+        <input type="text" name="image"> <br>
+
+        <select name="type">
+            <option selected disabled>Choose type</option>
+            <option value="all">All</option>
+            <option value="vehicles">Vehicles</option>
+            <option value="aa">Antiques & Artifacts</option>
+            <option value="mi">Music instruments</option>
+            <option value="art">Art</option>
+        </select>
+        <input type="submit" value="Submit ad">
+    </form>
+
+    
+{%endblock content%}
