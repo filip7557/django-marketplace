@@ -10,5 +10,5 @@ urlpatterns = [
     path("solve_dispute", solve_dispute, name="solve_dispute"),
     path("profile/<int:user_id>/", profile, name="profile"),
     path("register", register, name="register"),
-    path("review", review, name="review"),
+    path("review/<int:seller_id>/", review, name="review"),
 ]

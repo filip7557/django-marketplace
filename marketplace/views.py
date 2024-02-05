@@ -84,6 +84,7 @@ def profile(request, user_id):
             #sellers public profile
             context = {
                 'seller': clicked_user,
+                'seller_id': user_id, 
                 'reviews': reviews,
             }
             return render(request, 'marketplace/seller_public_profile.html', context)
@@ -143,13 +144,11 @@ def new(request):
     else:
             return HttpResponseRedirect(reverse('home'))
 
-def review(request): 
+def review(request, seller_id): 
     if request.user.is_authenticated:
-        user = get_object_or_404(MarketplaceUser, pk=request.user.id)
+        user = get_object_or_404(User, pk=request.user.id)
         if request.method=="POST":
-                seller_id = request.POST['seller_id']
-                user_seller = get_object_or_404(User, pk=seller_id)
-                seller = get_object_or_404(MarketplaceUser, pk=user_seller)
+                seller = get_object_or_404(MarketplaceUser, pk=seller_id)
                 rating = request.POST['rating']
                 text = request.POST['text']
 
@@ -159,5 +158,3 @@ def review(request):
         
     return HttpResponseRedirect(reverse('marketplace:profile', args=(seller_id,)))
             
-    
-        

@@ -12,14 +12,12 @@
     {% endfor %}
 
     {% if request.user.is_authenticated %}
-        <form action="{%url 'marketplace:review'%}" method="post">
+        <form action="{% url 'marketplace:review' seller_id %}" method="post">
             {% csrf_token %}
             <label for ="">Rating 1-5</label>
             <input type="number" name="rating" min="1" max="5" required> <br>
             <label for ="">Text</label>
             <input type="text" name="text" required> <br>
-
-            <input type="hidden" name="seller_id" value="{{ seller.id }}">
 
             <input type="submit" value="Submit a review">
         </form>
@@ -28,5 +26,3 @@
     {% endif %}
 
 {% endblock content %}
-
-                    
