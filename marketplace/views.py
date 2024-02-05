@@ -41,6 +41,17 @@ def buy(request):
             purchase.save()
     return HttpResponseRedirect(reverse('home'))
 
+def dispute(request, ad_id):
+    if request.user.is_authenticated:
+        ad=get_object_or_404(Ad, pk = ad_id)
+        if request.method=="POST":
+            user = request.user
+            text = request.POST['text']
+            
+            Dispute.objects.create(ad = ad, user = user, text = text, isSolved = False)
+
+    return HttpResponseRedirect(reverse('home')) 
+
 def disputes(request):
     if request.user.is_superuser:
         sort = request.GET.get('filter', 'active') #we want to show active for default

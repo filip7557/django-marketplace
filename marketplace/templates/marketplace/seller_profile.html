@@ -19,6 +19,13 @@
     <h2>Previous purhcases:</h2>
     {% for purchase in purchases %}
         <p>Bought <b>{{ purchase.ad }}</b> from <b>{{ purchase.seller }}</b> for <b>{{ purchase.ad.price }}</b> credits.</p>
+        <form action="{% url 'marketplace:dispute' purchase.ad.id %}" method="post">
+            {% csrf_token %}
+            <label for ="">Text</label>
+            <input type="text" name="text" required> <br>
+
+            <input type="submit" value="Submit a dispute">
+        </form>
     {% empty %}
         <p>You haven't bought anything yet.</p>
     {% endfor %}
