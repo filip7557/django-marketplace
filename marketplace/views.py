@@ -122,8 +122,8 @@ def register(request):
 
 def new(request): 
     if request.user.is_authenticated:
+        user = get_object_or_404(MarketplaceUser, pk=request.user.id)
         if request.method=="POST":
-            user = get_object_or_404(MarketplaceUser, pk=request.user.id)
             if(user.isSeller):
                 title=request.POST['title'] 
                 desc=request.POST['desc'] 
@@ -135,7 +135,10 @@ def new(request):
                 ad.save()   
             return HttpResponseRedirect(reverse('home'))
         else:
+            if(not user.isSeller):
+                context = {}
+                return render(request, 'marketplace/user_not_seller.html', context)
             context={}
             return render(request, 'marketplace/new.html', context)
     else:
-        return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(reverse('home'))
