@@ -9,10 +9,12 @@
             {{ hidden }}
         {% endfor %}
 
+        <div class="register">
         <h2>Enter your details</h2>
         {% for field in user_form.visible_fields %}
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
+            <br>
             {% for error in field.errors %}
                 <p style="color: red;">{{ error }}</p>
             {% endfor %}
@@ -27,6 +29,6 @@
         <button type="submit">Register</button>
 
         <a href="{% url 'home' %}">Cancel</a>
-
+    </div>
     </form>
 {% endblock content %}

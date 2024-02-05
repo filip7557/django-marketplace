@@ -1,47 +1,50 @@
 {% extends 'marketplace/base.html' %}
-{%load static%}
 
 {% block content %}
-<div>
-    <form action="#" method="get">
-        <select name="filter" onchange="this.form.submit()">
-            <option selected disabled>Choose type</option>
-            <option value="all">All</option>
-            <option value="vehicles">Vehicles</option>
-            <option value="aa">Antiques & Artifacts</option>
-            <option value="mi">Music instruments</option>
-            <option value="art">Art</option>
-            <!--trebat ce dodati još, također moraju biti iste kao u submit new add template-->
-        </select>
-    </form>
-</div>
-<div>
-    <h2>Check out latest ads:</h2>
-    {% if request.user.is_authenticated %}
-    <h3>Credits: {{ user.credits }}</h3>
-    {% endif %}
-    {% for ad in ads %}
-        <div class="ad">
-            <h3>{{ ad.title }}</h3>
-            <p><small>{{ ad.pub_date }}</small></p>
-            <p>Seller: <a href="{% url 'marketplace:profile' ad.seller.user.id %}">{{ ad.seller }}</a></p>
-            <img src="{{ ad.image }}" style="width: 150px;">
-            <p>{{ ad.desc }}</p>
-            <p><b>Price:</b> {{ ad.price }}</p>
-            <form action="{% url 'marketplace:buy'%}" method="post">
-                <input type="hidden" name="id" value="{{ ad.id }}">
-                {% if user.credits < ad.price %}
-                    <input type="submit" value="Buy" disabled>
-                    <p style="color: red;">Not enough credits.</p>
-                {% else %}
-                    <input type="submit" value="Buy">
-                {% endif %}
-                {% csrf_token %}
-            </form>
+    <div class="a">
+        <form action="#" method="get">
+            <select name="filter" onchange="this.form.submit()">
+                <option selected disabled>Choose type</option>
+                <option value="all">All</option>
+                <option value="vehicles">Vehicles</option>
+                <option value="aa">Antiques & Artifacts</option>
+                <option value="mi">Music instruments</option>
+                <option value="art">Art</option>
+                <!--trebat ce dodati još, također moraju biti iste kao u submit new add template-->
+            </select>
+        </form>
+       
+        <h2>Check out latest ads:</h2>
+        {% if request.user.is_authenticated %}
+        <h3>Credits: {{ user.credits }}</h3>
+        {% endif %}
+    </div>
+
+    <div class ="all">
+        {% for ad in ads %}
+            <div class="ad">
+                <h3>{{ ad.title }}</h3>
+                <p><small>{{ ad.pub_date }}</small></p>
+                <p>Seller: <a href="{% url 'marketplace:profile' ad.seller.user.id %}">{{ ad.seller }}</a></p>
+                <img src="{{ ad.image }}" style="width: 150px;">
+                <p>{{ ad.desc }}</p>
+                <p><b>Price:</b> {{ ad.price }}</p>
+                <form action="{% url 'marketplace:buy'%}" method="post">
+                    <input type="hidden" name="id" value="{{ ad.id }}">
+                    {% if user.credits < ad.price %}
+                        <input type="submit" value="Buy" disabled>
+                        <p style="color: red;">Not enough credits.</p>
+                    {% else %}
+                        <input type="submit" value="Buy">
+                    {% endif %}
+                    {% csrf_token %}
+                </form>
             </div>
-    {% empty %}
-        <p>No ads fitting your filter.</p>
-    {% endfor %}
+        {% empty %}
+            <p>No ads fitting your filter.</p>
+        {% endfor %}
+    </div>
+    
 </div>
 
 {% endblock content %}

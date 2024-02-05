@@ -2,38 +2,38 @@
 {% load static %}
 
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bargain Marketplace</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'marketplace\css\marketplace.css' %}">
-</head>
-<body>
-    <div>
-        <a href="/">Marketplace</a>
-    </div>
-    <div>
-        {% if request.user.is_authenticated %}
-            Prijavljen: <a href="{% url 'marketplace:profile' request.user.id %}">{{request.user.username}}</a></a>
-            <a href="{% url 'logout' %}">Logout</a>
-            <br>
-            <a href="{% url 'marketplace:new' %}">Submit new ad</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <br>
-            <a href="{% url 'marketplace:register' %}">Register</a>
-        {% endif %}
-    </div>
-    <div>
-        {% if request.user.is_superuser %}
-        <a href= "/admin">Admin</a>
-        <a href="{% url 'marketplace:disputes'%}">Disputes</a>
-        {% endif %}
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bargain Marketplace</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'marketplace\css\marketplace.css' %}">
+    </head>
+    <body>
+        
+        <nav>
+                {% if request.user.is_authenticated %}
+                    Prijavljen: <a href="{% url 'marketplace:profile' request.user.id %}">{{request.user.username}}</a></a>
+                    <br>
+                    <a href="{% url 'logout' %}">Logout</a>
+                    <br>
+                    <a href="{% url 'marketplace:new' %}">Submit new ad</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <br>
+                    <a href="{% url 'marketplace:register' %}">Register</a>
+                {% endif %}
+        </nav>
 
-    <h1>Bargain Marketplace</h1>
-    {% block content %}
-    {% endblock content %}
+        <div class ="admin">
+            {% if request.user.is_superuser %}
+            <a href= "/admin">Admin</a>
+            <a href="{% url 'marketplace:disputes'%}">Disputes</a>
+            {% endif %}
+        </div>
 
-</body>
+        <h1><a href="/">Bargain Marketplace</a></h1>
+        {% block content %}
+        {% endblock content %}
+
+    </body>
 </html>

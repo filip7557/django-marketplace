@@ -8,15 +8,21 @@
     {% empty %}
         <p>You haven't sold anything yet.</p>
     {% endfor %}
+
+    <br>
+
     <h2>Reviews:</h2>
     {% for review in reviews %}
+        <div class ="review">
         <h3>{{ review.poster }}</h3>
         <p><b>Rating: </b>{{ review.rating }}</p>
-        <p>{{ review.text }}</p>
+        <p><b>Comment:</b>{{ review.text }}</p>
+        </div>
     {% empty %}
         <p>There are no reviews yet.</p>
     {% endfor %}
-    <h2>Previous purhcases:</h2>
+
+    <h2>Previous purchases:</h2>
     {% for purchase in purchases %}
         <p>Bought <b>{{ purchase.ad }}</b> from <b>{{ purchase.seller }}</b> for <b>{{ purchase.ad.price }}</b> credits.</p>
         <form action="{% url 'marketplace:dispute' purchase.ad.id %}" method="post">
@@ -29,4 +35,5 @@
     {% empty %}
         <p>You haven't bought anything yet.</p>
     {% endfor %}
+
 {% endblock content %}

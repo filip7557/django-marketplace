@@ -2,27 +2,32 @@
 
 {% block content %}
     <h1>{{ seller }}'s Public Profile</h1>
-    <h2>Reviews:</h2>
-    {% for review in reviews %}
-        <h3>{{ review.poster }}</h3>
-        <p><b>Rating: </b>{{ review.rating }}</p>
-        <p>{{ review.text }}</p>
-    {% empty %}
-        <p>There are no reviews yet.</p>
-    {% endfor %}
+    <div class ="rating">
+        <h2>Reviews:</h2>
+        {% for review in reviews %}
+            <h3>{{ review.poster }}</h3>
+            <p><b>Rating: </b>{{ review.rating }}</p>
+            <p>{{ review.text }}</p>
+        {% empty %}
+            <p>There are no reviews yet.</p>
+        {% endfor %}
 
-    {% if request.user.is_authenticated %}
-        <form action="{% url 'marketplace:review' seller_id %}" method="post">
-            {% csrf_token %}
-            <label for ="">Rating 1-5</label>
-            <input type="number" name="rating" min="1" max="5" required> <br>
-            <label for ="">Text</label>
-            <input type="text" name="text" required> <br>
+        {% if request.user.is_authenticated %}
+        
+                <form action="{% url 'marketplace:review' seller_id %}" method="post">
+                    {% csrf_token %}
+                    <label for ="">Rating 1-5</label>
+                    <input type="number" name="rating" min="1" max="5" required> <br>
+                    <label for ="">Text</label>
+                    <input type="text" name="text" required> <br>
 
-            <input type="submit" value="Submit a review">
-        </form>
-        {%else%}
-            <a href="url 'login'">Login</a>
-    {% endif %}
+                    <input type="submit" value="Submit a review">
+                </form>
+
+                {%else%}
+                    <a href="url 'login'">Login</a>
+            
+        {% endif %}
+    </div>
 
 {% endblock content %}
