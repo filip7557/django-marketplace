@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 from .forms import UserForm
 from .models import Ad, Dispute, MarketplaceUser, Purchase
@@ -99,12 +100,10 @@ def register(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         if user_form.is_valid():
-            user = user_form.save()
             # We need to set the password separately, because the UserForm
             # doesn't have a password field, it uses two fields for the password
             # and password confirmation.
-            user.set_password(user_form.cleaned_data['password1'])
-            user.save()
+            user = User.objects.create_user(user_form.cleaned_data['username'], None, user_form.cleaned_data['password1'])
 
             select = request.POST['isSeller']
             if(select=="yes"):
@@ -113,8 +112,7 @@ def register(request):
                 isSeller = False
 
             # We need to set the user field on marketplaceUser before we can save it
-            marketplaceUser = MarketplaceUser(user=user, isSeller=isSeller, credits=0)
-            marketplaceUser.save()
+            MarketplaceUser.objects.create(user=user, isSeller=isSeller, credits=0)
             return HttpResponseRedirect(reverse('login'))
         else:
             return render(request, 'registration/register.html', {'user_form': user_form,})
