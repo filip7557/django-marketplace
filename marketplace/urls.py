@@ -1,5 +1,5 @@
 from django.urls import path
-from marketplace.views import register, profile, solve_dispute, disputes, new, buy
+from marketplace.views import register, profile, solve_dispute, disputes, new, buy, review
 
 
 app_name = "marketplace"
@@ -9,5 +9,6 @@ urlpatterns = [
     path("disputes", disputes, name="disputes"),
     path("solve_dispute", solve_dispute, name="solve_dispute"),
     path("profile/<int:user_id>/", profile, name="profile"),
-    path("register", register, name="register")
+    path("register", register, name="register"),
+    path("review", review, name="review"),
 ]

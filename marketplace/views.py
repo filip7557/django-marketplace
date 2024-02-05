@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from .forms import UserForm
-from .models import Ad, Dispute, MarketplaceUser, Purchase
+from .models import Ad, Dispute, MarketplaceUser, Purchase, Review
 
 # Create your views here.
 def home(request):
@@ -142,3 +142,22 @@ def new(request):
             return render(request, 'marketplace/new.html', context)
     else:
             return HttpResponseRedirect(reverse('home'))
+
+def review(request): 
+    if request.user.is_authenticated:
+        user = get_object_or_404(MarketplaceUser, pk=request.user.id)
+        if request.method=="POST":
+                seller_id = request.POST['seller_id']
+                user_seller = get_object_or_404(User, pk=seller_id)
+                seller = get_object_or_404(MarketplaceUser, pk=user_seller)
+                rating = request.POST['rating']
+                text = request.POST['text']
+
+                review = Review(poster = user, seller = seller, rating = rating, text = text)
+                review.save()   
+                
+        
+    return HttpResponseRedirect(reverse('marketplace:profile', args=(seller_id,)))
+            
+    
+        
