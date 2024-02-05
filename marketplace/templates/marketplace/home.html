@@ -21,7 +21,7 @@
     <h3>Credits: {{ user.credits }}</h3>
     {% endif %}
     {% for ad in ads %}
-        <div style="border-bottom: 1px solid; width: 40vw; padding-bottom: 1rem;">
+        <div class="ad">
             <h3>{{ ad.title }}</h3>
             <p><small>{{ ad.pub_date }}</small></p>
             <p>Seller: <a href="{% url 'marketplace:profile' ad.seller.user.id %}">{{ ad.seller }}</a></p>
